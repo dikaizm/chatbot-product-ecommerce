@@ -1,0 +1,19 @@
+**TP4056 5V 1A Modul Charger Baterai Lithium**  
+
+Charger baterai lithium praktis dan efisien untuk kebutuhan harianmu! Modul TP4056 ini dirancang khusus untuk mengisi daya baterai lithium-ion (Li-ion) dengan aman dan cepat. Dengan output 5V dan arus 1A, kamu bisa mengisi baterai dengan stabil tanpa khawatir overcharging atau overheating.  
+
+**Fitur Utama:**  
+✔ Cocok untuk baterai lithium-ion 3.7V  
+✔ Output 5V 1A untuk pengisian cepat  
+✔ Dilengkapi proteksi overcharge dan short circuit  
+✔ Indikator LED merah (charging) dan biru (full charge)  
+✔ Ukuran compact, mudah dipasang di berbagai proyek elektronik  
+
+Ideal untuk pengisian power bank, drone, robot, atau perangkat elektronik lainnya yang menggunakan baterai lithium. Dapatkan modul charger berkualitas ini sekarang dan nikmati pengisian baterai yang lebih aman dan efisien!  
+
+**Spesifikasi:**  
+- Input: 5V DC  
+- Output: 4.2V 1A  
+- Dimensi: 27mm x 17mm x 4mm  
+
+Beli sekarang dan hemat waktu dengan charger baterai lithium yang handal!

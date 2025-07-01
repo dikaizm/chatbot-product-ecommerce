@@ -1,0 +1,19 @@
+**Passive Splitter PLC BOX 1:4 SC UPC/Box Splitter 1:4 SC UPC Fiber Optic**  
+
+Tingkatkan jaringan fiber optikmu dengan **Passive Splitter PLC BOX 1:4 SC UPC**! Splitter ini dirancang untuk membagi sinyal optik menjadi 4 output dengan performa stabil dan loss rendah, cocok untuk jaringan FTTH, PON, dan aplikasi lainnya.  
+
+**Fitur Utama:**  
+✔ Rasio split 1:4 dengan kualitas tinggi  
+✔ Konektor SC/UPC untuk koneksi yang presisi  
+✔ Desain kompak dan tahan lama  
+✔ Loss rendah dan kinerja optimal  
+✔ Kompatibel dengan berbagai perangkat fiber optik  
+
+**Spesifikasi:**  
+- Tipe: PLC (Planar Lightwave Circuit)  
+- Panjang Gelombang: 1260-1650nm  
+- Insertion Loss: ≤7.4dB  
+- Uniformity: ≤1.0dB  
+- Konektor: SC/UPC  
+
+Sempurna untuk kebutuhan jaringan rumahan atau bisnis yang mengutamakan kecepatan dan stabilitas. Dapatkan **Passive Splitter PLC BOX 1:4 SC UPC** sekarang dan rasakan kualitas sinyal fiber optik yang lebih baik!

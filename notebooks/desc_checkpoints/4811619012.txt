@@ -1,0 +1,18 @@
+**MODULE DHT11 SENSOR SUHU DAN KELEMBABAN HUMIDITY SENSOR**  
+
+Sensor DHT11 adalah modul praktis untuk mengukur suhu dan kelembaban udara dengan akurasi yang handal. Cocok digunakan untuk proyek elektronik, IoT, atau monitoring ruangan. Dengan desain kompak dan mudah diintegrasikan ke berbagai mikrokontroler seperti Arduino, Raspberry Pi, dan lainnya.  
+
+**Fitur Utama:**  
+✔ Mengukur suhu (0-50°C) dengan akurasi ±2°C  
+✔ Mendeteksi kelembaban (20-90% RH) dengan akurasi ±5%  
+✔ Output digital untuk pembacaan yang stabil  
+✔ Kompatibel dengan berbagai platform mikrokontroler  
+✔ Konsumsi daya rendah, ideal untuk proyek portabel  
+
+**Aplikasi:**  
+- Sistem monitoring rumah pintar  
+- Pengatur iklim tanaman hidroponik  
+- Alat pendeteksi lingkungan laboratorium  
+- Proyek IoT dan automasi  
+
+Dapatkan MODULE DHT11 sekarang dan kembangkan proyek elektronikmu dengan lebih canggih! Mudah dipasang, harga terjangkau, dan hasil pengukuran yang akurat.

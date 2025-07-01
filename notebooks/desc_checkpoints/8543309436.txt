@@ -1,0 +1,12 @@
+Kapasitor MKM Merah dengan berbagai pilihan nilai kapasitansi untuk kebutuhan rangkaian elektronik Anda. Tersedia dalam berbagai varian mulai dari 100pF (101) hingga 100nF (104) dengan tegangan kerja 100V. Cocok untuk aplikasi audio, filter frekuensi, hingga rangkaian tuning.  
+
+Produk ini memiliki toleransi ketepatan tinggi (J = ±5%) dan konstruksi berkualitas untuk performa stabil. Ukuran kompak memudahkan pemasangan pada PCB. Dapat digunakan untuk proyek DIY, perbaikan perangkat elektronik, atau kebutuhan industri.  
+
+**Spesifikasi:**  
+- Tipe: Kapasitor MKM (Metalized Polyester Film)  
+- Warna: Merah  
+- Nilai Kapasitansi: 100pF (101), 1nF (102), 2.2nF (222), 3.3nF (332), 4.7nF (472), 5.6nF (562), 10nF (103), 15nF (153), 22nF (223), 33nF (333), 39nF (393), 68nF (683), 47nF (473), 100nF (104)  
+- Tegangan: 100V  
+- Toleransi: ±5% (J)  
+
+Dapatkan kapasitor MKM ini untuk proyek elektronik Anda dengan harga terjangkau dan kualitas terjamin!

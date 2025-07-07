@@ -1,6 +1,6 @@
 # Chatbot Rekomendasi Produk E-Commerce
 
-A Streamlit-based chatbot application that helps users find products based on their needs using natural language queries. The chatbot leverages a fine-tuned Indonesian BERT model for embeddings and DeepSeek LLM for generating responses.
+A Streamlit-based chatbot application that helps users find products based on their needs using natural language queries. The chatbot leverages a fine-tuned Indonesian BERT model for embeddings and Google Gemini (Generative AI) for generating responses and clarification.
 
 ## Features
 
@@ -8,6 +8,7 @@ A Streamlit-based chatbot application that helps users find products based on th
 - 🔍 Semantic search using FAISS vector database
 - 🇮🇩 Indonesian language support
 - 📦 Product recommendations based on user queries
+- 💬 Clarification step: the bot will ask up to 2 clarifying questions if your query is too vague, then proceed to answer
 - 💾 Conversation memory for contextual responses
 - 🎯 Fine-tuned embedding model for better Indonesian text understanding
 
@@ -15,7 +16,7 @@ A Streamlit-based chatbot application that helps users find products based on th
 
 - Python 3.8 or higher
 - Git
-- DeepSeek API key
+- Google Generative AI (Gemini) API key
 
 ## Installation
 
@@ -48,12 +49,12 @@ A Streamlit-based chatbot application that helps users find products based on th
    touch .env
    ```
    
-   Add your DeepSeek API key to the `.env` file:
+   Add your Google Gemini API key to the `.env` file:
    ```
-   DEEPSEEK_API_KEY=your_deepseek_api_key_here
+   GOOGLE_GENAI_API_KEY=your_gemini_api_key_here
    ```
    
-   > **Note:** Get your DeepSeek API key from [DeepSeek's official website](https://platform.deepseek.com/)
+   > **Note:** Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
 
 ## Project Structure
 
@@ -103,8 +104,9 @@ chatbot-product-ecommerce/
 ### Using the Chatbot
 
 1. **Start a conversation**: Type your product-related questions in Indonesian
-2. **Get recommendations**: The chatbot will provide relevant product suggestions
-3. **View product details**: Each recommendation shows product ID, name, and category
+2. **Clarification step**: If your question is too vague, the bot will ask up to 2 clarifying questions. After 2 clarifications, it will proceed to answer with the best available information.
+3. **Get recommendations**: The chatbot will provide relevant product suggestions
+4. **View product details**: Each recommendation shows product ID, name, and category
 
 ### Example Queries
 
@@ -112,6 +114,13 @@ chatbot-product-ecommerce/
 - "Tolong rekomendasikan smartphone dengan kamera bagus"
 - "Ada produk fashion wanita yang sedang diskon?"
 - "Saya butuh headphone wireless untuk kerja"
+
+## How the Clarification Logic Works
+
+- When you ask a question, the bot first checks if it is clear enough to answer.
+- If not, the bot will ask a clarifying question (up to 2 times).
+- After 2 clarifications, the bot will use the last clarification as the summary and answer your query.
+- This ensures you always get an answer, even if your question is initially vague.
 
 ## Configuration
 
@@ -124,11 +133,8 @@ You can modify the model parameters in `streamlit_app.py`:
 model_name = "Hvare/Athena-indobert-finetuned-indonli-SentenceTransformer"
 
 # LLM settings
-llm = ChatDeepSeek(
-    model="deepseek-chat",
-    temperature=1.3,        # Adjust creativity (0.0-2.0)
-    max_tokens=512,         # Maximum response length
-    max_retries=2,          # Retry attempts
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
     api_key=api_key
 )
 
@@ -141,20 +147,7 @@ retriever = vectorstore.as_retriever(
 
 ### Customizing the Prompt
 
-Edit the prompt template in `streamlit_app.py` to change the chatbot's behavior:
-
-```python
-prompt = PromptTemplate(
-    input_variables=["context", "question"],
-    template="""
-    Anda adalah asisten yang membantu pengguna menemukan produk yang sesuai dengan kebutuhan mereka.
-    Berdasarkan konteks berikut, berikan jawaban yang relevan dan informatif.
-    Context: {context}
-    Pertanyaan: {question}
-    Berikan jawaban yang singkat dan jelas, serta jika perlu, rekomendasikan produk yang sesuai dengan kebutuhan pengguna.
-    """
-)
-```
+Edit the prompt templates in `streamlit_app.py` to change the chatbot's behavior or clarification style.
 
 ## Troubleshooting
 
@@ -167,7 +160,7 @@ prompt = PromptTemplate(
 
 2. **API Key Error**
    - Ensure your `.env` file exists and contains the correct API key
-   - Verify the API key is valid and has sufficient credits
+   - Verify the API key is valid and has sufficient quota
 
 3. **FAISS Index Not Found**
    - Make sure the `faiss_index/` directory exists with `index.faiss` and `index.pkl` files
@@ -175,13 +168,12 @@ prompt = PromptTemplate(
 
 4. **Memory Issues**
    - Reduce the `k` parameter in search_kwargs
-   - Lower the `max_tokens` parameter
 
 ### Performance Optimization
 
 - **Faster loading**: The embedding model is cached using `@st.cache_resource`
 - **Memory efficiency**: Consider using smaller embedding models for production
-- **Response time**: Adjust `max_tokens` and `temperature` for faster responses
+- **Response time**: Adjust `k` and model parameters for faster responses
 
 ## Development
 
@@ -202,7 +194,7 @@ The project includes Jupyter notebooks for data processing:
 Key dependencies include:
 - `streamlit`: Web application framework
 - `langchain`: LLM framework
-- `langchain-deepseek`: DeepSeek LLM integration
+- `langchain-google-genai`: Gemini LLM integration
 - `sentence-transformers`: HuggingFace embeddings
 - `faiss-cpu`: Vector similarity search
 - `python-dotenv`: Environment variable management
@@ -216,6 +208,17 @@ See `requirements.txt` for the complete list.
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
+
+## License
+
+[Add your license information here]
+
+## Support
+
+For issues and questions:
+- Create an issue in the repository
+- Check the troubleshooting section above
+- Review the Streamlit documentation: https://docs.streamlit.io/
 
 ---
 

@@ -1,3 +1,5 @@
 .venv/
 data/images
 .env
+notebooks/desc_checkpoints/
+.DS_Store

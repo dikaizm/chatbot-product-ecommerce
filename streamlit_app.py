@@ -130,65 +130,33 @@ if "clarify_mode" not in st.session_state:
     st.session_state.clarify_mode = False
 if "clarify_question" not in st.session_state:
     st.session_state.clarify_question = ""
-if "clarify_count" not in st.session_state:
-    st.session_state.clarify_count = 0
 if "clarify_chain" not in st.session_state:
     qa_chain, memory, clarify_chain, clarify_memory = get_chain()
     st.session_state.qa_chain = qa_chain
     st.session_state.memory = memory
     st.session_state.clarify_chain = clarify_chain
     st.session_state.clarify_memory = clarify_memory
-if "last_summary" not in st.session_state:
-    st.session_state.last_summary = ""
+if "temp_q" not in st.session_state:
+    st.session_state.temp_q = ""
 
 user_input = st.text_input("Tanyakan produk yang Anda butuhkan...", key="input")
 
 if st.button("Kirim") and user_input:
-    if st.session_state.clarify_mode:
-        clarify_result = clarify_question(user_input, st.session_state.clarify_chain, st.session_state.clarify_memory)
-        if clarify_result["type"] == "question":
-            st.session_state.clarify_count += 1
-            st.session_state.last_summary = clarify_result["result"]
-            if st.session_state.clarify_count >= 2:
-                # After 2 clarifications, treat as summary and answer
-                answer, docs = ask_bot(st.session_state.last_summary, st.session_state.qa_chain)
-                st.session_state.chat_history.append(("You", user_input))
-                st.session_state.chat_history.append(("Bot", answer, docs))
-                st.session_state.clarify_mode = False
-                st.session_state.clarify_question = ""
-                st.session_state.clarify_count = 0
-                st.session_state.last_summary = ""
-            else:
-                st.session_state.chat_history.append(("Bot", clarify_result["result"]))
-                st.session_state.clarify_mode = True
-                st.session_state.clarify_question = clarify_result["result"]
-        elif clarify_result["type"] == "summary":
-            summary_q = clarify_result["result"]
-            answer, docs = ask_bot(summary_q, st.session_state.qa_chain)
-            st.session_state.chat_history.append(("You", user_input))
-            st.session_state.chat_history.append(("Bot", answer, docs))
-            st.session_state.clarify_mode = False
-            st.session_state.clarify_question = ""
-            st.session_state.clarify_count = 0
-            st.session_state.last_summary = ""
-    else:
-        clarify_result = clarify_question(user_input, st.session_state.clarify_chain, st.session_state.clarify_memory)
-        if clarify_result["type"] == "question":
-            st.session_state.chat_history.append(("You", user_input))
-            st.session_state.chat_history.append(("Bot", clarify_result["result"]))
-            st.session_state.clarify_mode = True
-            st.session_state.clarify_question = clarify_result["result"]
-            st.session_state.clarify_count = 1
-            st.session_state.last_summary = clarify_result["result"]
-        elif clarify_result["type"] == "summary":
-            summary_q = clarify_result["result"]
-            answer, docs = ask_bot(summary_q, st.session_state.qa_chain)
-            st.session_state.chat_history.append(("You", user_input))
-            st.session_state.chat_history.append(("Bot", answer, docs))
-            st.session_state.clarify_mode = False
-            st.session_state.clarify_question = ""
-            st.session_state.clarify_count = 0
-            st.session_state.last_summary = ""
+    st.session_state.temp_q += user_input.strip() + " "
+    clarify_result = clarify_question(st.session_state.temp_q.strip(), st.session_state.clarify_chain, st.session_state.clarify_memory)
+    if clarify_result["type"] == "question":
+        st.session_state.chat_history.append(("You", user_input))
+        st.session_state.chat_history.append(("Bot", clarify_result["result"]))
+        st.session_state.clarify_mode = True
+        st.session_state.clarify_question = clarify_result["result"]
+    elif clarify_result["type"] == "summary":
+        summary_q = clarify_result["result"]
+        answer, docs = ask_bot(summary_q, st.session_state.qa_chain)
+        st.session_state.chat_history.append(("You", user_input))
+        st.session_state.chat_history.append(("Bot", answer, docs))
+        st.session_state.clarify_mode = False
+        st.session_state.clarify_question = ""
+        st.session_state.temp_q = ""  # Reset after answer
 
 # Display chat history
 for entry in st.session_state.chat_history:
@@ -198,14 +166,69 @@ for entry in st.session_state.chat_history:
         st.markdown(f"**Bot:** {entry[1]}")
         if len(entry) > 2 and entry[2]:
             st.markdown("**Rekomendasi produk:**")
-            for doc in entry[2]:
+            
+            # Create columns for product cards (3 cards per row)
+            cols = st.columns(3)
+            for idx, doc in enumerate(entry[2]):
                 meta = doc.metadata
-                st.markdown(
-                    f"- **ID:** {meta.get('product_id', '-')}, "
-                    f"**Nama:** {meta.get('name', '-')}, "
-                    f"**Kategori:** {meta.get('category', '-')}"
-                    f"{' > ' + meta.get('sub_category', '-') if meta.get('sub_category') else ''}"
-                )
+                col_idx = idx % 3
+                
+                with cols[col_idx]:
+                    # Product card container
+                    with st.container():
+                        st.markdown("""
+                        <style>
+                        .product-card {
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            padding: 16px;
+                            margin: 8px 0;
+                            background-color: white;
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        }
+                        .product-image {
+                            width: 100%;
+                            height: 120px;
+                            background-color: #f0f0f0;
+                            border-radius: 4px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin-bottom: 8px;
+                        }
+                        .product-title {
+                            font-weight: bold;
+                            font-size: 14px;
+                            margin-bottom: 4px;
+                            color: #333;
+                        }
+                        .product-category {
+                            font-size: 12px;
+                            color: #666;
+                            margin-bottom: 4px;
+                        }
+                        .product-id {
+                            font-size: 11px;
+                            color: #999;
+                        }
+                        </style>
+                        """, unsafe_allow_html=True)
+                        
+                        # Product card HTML
+                        product_html = f"""
+                        <div class="product-card">
+                            <div class="product-image">
+                                📦
+                            </div>
+                            <div class="product-title">{meta.get('name', 'Nama Produk')}</div>
+                            <div class="product-category">{meta.get('category', 'Kategori')}{' > ' + meta.get('sub_category', '') if meta.get('sub_category') else ''}</div>
+                            <div class="product-id">ID: {meta.get('product_id', 'N/A')}</div>
+                        </div>
+                        """
+                        st.markdown(product_html, unsafe_allow_html=True)
+                        
+                        # Add some spacing between cards
+                        st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("---")
 
 # If in clarify mode, show the clarifying question as a prompt
